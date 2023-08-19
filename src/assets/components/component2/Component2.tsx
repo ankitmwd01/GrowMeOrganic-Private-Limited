@@ -26,6 +26,7 @@ function Component2(): JSX.Element {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const handleSelect = (event: React.MouseEvent, item: string) => {
+    event.preventDefault();
     if (selectedItems.includes(item)) {
       setSelectedItems(selectedItems.filter((i) => i !== item));
     } else {

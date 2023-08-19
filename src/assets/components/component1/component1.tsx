@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
-import { toast } from "react-hot-toast";
+
 interface Data {
   userId: number;
   id: number;
   title: string;
   body: string;
 }
+
 const Component1: React.FC = () => {
-  const [table, setTable] = useState<Data | null>(null);
-  const [Loading, setLoading] = useState<boolean>(false);
-  const FetchData = async () => {
+  const [table, setTable] = useState<Data[]>([]); // Changed to an array
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
@@ -21,15 +23,13 @@ const Component1: React.FC = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      console.error("Error fetching data:", error);
     }
   };
+
   useEffect(() => {
-    FetchData();
+    fetchData();
   }, []);
-  if (!table || Loading) {
-    return <h1>Loading</h1>;
-  }
-  const rows: GridRowsProp = table;
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 100 },
@@ -37,15 +37,21 @@ const Component1: React.FC = () => {
     { field: "title", headerName: "Title", width: 400 },
     { field: "body", headerName: "Description", width: 700 },
   ];
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <>
       <h1 style={{ display: "flex", justifyContent: "center" }}>Component1</h1>
-      {table && (
+      {table.length > 0 && (
         <div style={{ height: "60vh", width: "100%" }}>
-          <DataGrid rows={rows} columns={columns} />
+          <DataGrid rows={table} columns={columns} />
         </div>
       )}
     </>
   );
 };
+
 export default Component1;

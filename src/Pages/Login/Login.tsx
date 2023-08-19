@@ -4,17 +4,22 @@ import Box from "@mui/material/Box";
 import { Button, TextField } from "@mui/material";
 import "./Login.css";
 import { toast } from "react-hot-toast";
+interface User {
+  name: string;
+  email: string;
+  phoneno: number | null;
+}
 const Login = () => {
-  const [user, setUser] = useState<Object>({
-    name: String,
-    email: String,
-    phoneno: Number,
+  const [user, setUser] = useState<User>({
+    name: "",
+    email: "",
+    phoneno: null,
   });
   const Navigate = useNavigate();
   const HandleSubmit = (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
     localStorage.setItem("user", JSON.stringify(user));
-    toast.success(`welcome ${user.name}`);
+    toast.success(`welcome ${user?.name}`);
     Navigate("/home");
   };
   const inputChange = (e: any) => {
