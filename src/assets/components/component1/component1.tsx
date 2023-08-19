@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
+import Loader from "../Loader/Loader";
 
 interface Data {
   userId: number;
@@ -39,7 +40,7 @@ const Component1: React.FC = () => {
   ];
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <Loader />;
   }
 
   return (
